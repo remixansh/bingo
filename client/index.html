@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Neon Glass Bingo</title>
+    <title>Bingo Game</title>
     
     <!-- Socket.IO Client -->
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
@@ -115,6 +115,7 @@
         <div id="status-msg" class="mt-6 text-center text-xs md:text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">Waiting for start...</div>
     </div>
 
+    <!-- Game Over Modal (Moved Outside Game Screen for Full Screen Effect) -->
     <div id="game-over-modal" class="hidden fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-2xl bg-slate-950/90 transition-opacity duration-500">
         <!-- Floating Content Card -->
         <div class="relative z-10 p-10 flex flex-col items-center animate-fade-in">
