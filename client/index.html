@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bingo Game</title>
+    <title>Neon Glass Bingo</title>
     
     <!-- Socket.IO Client -->
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
@@ -113,16 +113,21 @@
         </div>
         
         <div id="status-msg" class="mt-6 text-center text-xs md:text-sm font-bold text-slate-500 uppercase tracking-[0.2em]">Waiting for start...</div>
+    </div>
 
-        <!-- Game Over Modal -->
-        <div id="game-over-modal" class="hidden absolute inset-0 -m-4 z-50 flex flex-col items-center justify-center backdrop-blur-xl bg-slate-950/80 rounded-3xl border border-white/10 p-6">
-            <h2 id="result-title" class="text-5xl md:text-6xl font-black mb-2 text-white drop-shadow-2xl text-center tracking-tighter">VICTORY</h2>
-            <p id="result-msg" class="text-base md:text-xl text-slate-300 mb-10 font-medium text-center opacity-90">Excellent game!</p>
+    <div id="game-over-modal" class="hidden fixed inset-0 z-[100] flex flex-col items-center justify-center backdrop-blur-2xl bg-slate-950/90 transition-opacity duration-500">
+        <!-- Floating Content Card -->
+        <div class="relative z-10 p-10 flex flex-col items-center animate-fade-in">
+             <!-- Background Glow -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+            <h2 id="result-title" class="text-6xl md:text-8xl font-black mb-4 text-white drop-shadow-2xl text-center tracking-tighter">VICTORY</h2>
+            <p id="result-msg" class="text-xl md:text-2xl text-slate-300 mb-12 font-medium text-center opacity-90">Excellent game!</p>
             
-            <button id="play-again-btn" class="px-8 md:px-10 py-3.5 md:py-4 bg-white hover:bg-slate-200 text-slate-950 font-black text-base md:text-lg rounded-full shadow-[0_0_30px_rgba(255,255,255,0.15)] transition-all transform hover:scale-105 active:scale-95">
+            <button id="play-again-btn" class="px-10 md:px-12 py-4 md:py-5 bg-white hover:bg-slate-200 text-slate-950 font-black text-lg md:text-xl rounded-full shadow-[0_0_40px_rgba(255,255,255,0.2)] transition-all transform hover:scale-105 active:scale-95">
                 Play Again
             </button>
-            <p id="rematch-status" class="mt-8 text-[10px] md:text-xs text-cyan-400 font-mono animate-pulse hidden tracking-[0.2em]">WAITING FOR OPPONENT...</p>
+            <p id="rematch-status" class="mt-8 text-xs md:text-sm text-cyan-400 font-mono animate-pulse hidden tracking-[0.3em] font-bold">WAITING FOR OPPONENT...</p>
         </div>
     </div>
 
