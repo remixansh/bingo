@@ -1,5 +1,7 @@
+const BACKEND_URL = 'https://bingo-n9fk.onrender.com'; 
+
 // Initialize Socket.IO
-const socket = io('http://localhost:5000');
+const socket = io(BACKEND_URL);
 
 // Game State
 let myBoard = new Array(25).fill(null);
@@ -241,11 +243,11 @@ function updateTurn(turnSid) {
     
     if (myTurn) {
         turnIndicator.innerText = "YOUR TURN";
-        turnIndicator.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wide bg-green-500 text-white animate-pulse shadow-lg shadow-green-500/50 transition-colors duration-300";
+        turnIndicator.className = "px-3 md:px-5 py-1.5 md:py-2 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-wide bg-green-500 text-white animate-pulse shadow-lg shadow-green-500/50 transition-colors duration-300";
         gameGrid.classList.remove('opacity-50', 'pointer-events-none');
     } else {
         turnIndicator.innerText = "OPPONENT'S TURN";
-        turnIndicator.className = "px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-wide bg-slate-800 text-slate-400 border border-slate-700 transition-colors duration-300";
+        turnIndicator.className = "px-3 md:px-5 py-1.5 md:py-2 rounded-full font-bold text-[10px] md:text-xs uppercase tracking-wide bg-slate-800 text-slate-400 border border-slate-700 transition-colors duration-300";
         gameGrid.classList.add('opacity-50', 'pointer-events-none');
     }
 }
@@ -300,7 +302,7 @@ function checkAndDrawLines() {
             transform: `rotate(${angle}deg)`,
             transformOrigin: '0 50%',
             transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-            zIndex: '20'
+            zIndex: '50'
         });
 
         grid.appendChild(line);
@@ -329,11 +331,11 @@ function handleGameOver(winnerName) {
     
     if (myName === winnerName) {
         resultTitle.innerText = "VICTORY";
-        resultTitle.className = "text-5xl font-black mb-2 text-white drop-shadow-lg";
+        resultTitle.className = "text-5xl md:text-6xl font-black mb-2 text-white drop-shadow-2xl text-center tracking-tighter";
         resultMsg.innerText = "Excellent game!";
     } else {
         resultTitle.innerText = "DEFEAT";
-        resultTitle.className = "text-5xl font-black mb-2 text-slate-500 drop-shadow-none";
+        resultTitle.className = "text-5xl md:text-6xl font-black mb-2 text-slate-500 drop-shadow-none text-center tracking-tighter";
         resultMsg.innerText = `${winnerName} won the game.`;
     }
     
