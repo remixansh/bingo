@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+    /* Color Palette */
+    --bg-dark: #020617;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    
+    /* Neon Colors */
+    --neon-blue: #38bdf8;
+    --neon-purple: #c084fc;
+    --neon-green: #4ade80;
+    --neon-red: #f43f5e;
+    
+    /* Glass Variables (Mobile Default) */
+    --glass-bg: rgba(15, 23, 42, 0.9); /* More opaque on mobile for readability */
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Desktop Overrides */
+@media (min-width: 768px) {
+    :root {
+        --glass-bg: rgba(15, 23, 42, 0.75); /* More transparent on desktop */
+        --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    }
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    /* Prevent pull-to-refresh on mobile to feel more app-like */
+    overscroll-behavior: none; 
+}
+
+/* --- Background Animation --- */
+.bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px); /* Lower blur for mobile performance */
+    opacity: 0.3;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.blob-1 { 
+    top: -5%; 
+    left: -10%; 
+    width: 300px; 
+    height: 300px; 
+    background: var(--neon-purple); 
+}
+
+.blob-2 { 
+    bottom: -5%; 
+    right: -10%; 
+    width: 350px; 
+    height: 350px; 
+    background: var(--neon-blue); 
+    animation-delay: -5s; 
+}
+
+@media (min-width: 768px) {
+    .blob { filter: blur(90px); }
+    .blob-1 { width: 600px; height: 600px; }
+    .blob-2 { width: 700px; height: 700px; }
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, 40px); }
+}
+
+/* --- Glass Panel Utility --- */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .glass-panel {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+}
+
+/* --- Bingo Cell Styling --- */
+.bingo-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem; /* Readable on mobile */
+    cursor: pointer;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+@media (min-width: 768px) {
+    .bingo-cell {
+        font-size: 1.35rem;
+        border-radius: 12px;
+    }
+}
+
+/* Hover effects only on devices that support hover */
+@media (hover: hover) {
+    .bingo-cell:hover:not(.disabled) {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+}
+
+/* Active/Tap state for Mobile feedback */
+.bingo-cell:active:not(.disabled) {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Selected state (Setup) */
+.bingo-cell.selected {
+    background: rgba(56, 189, 248, 0.15);
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.15);
+}
+
+/* Marked state (Game) */
+.bingo-cell.marked {
+    background: rgba(244, 63, 94, 0.15);
+    border-color: var(--neon-red);
+    color: white;
+    text-shadow: 0 0 8px var(--neon-red);
+    box-shadow: inset 0 0 15px rgba(244, 63, 94, 0.2);
+}
+
+.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    filter: grayscale(100%);
+}
+
+/* --- Winning Line Styles --- */
+#game-grid { 
+    position: relative; 
+    /* Allow lines to overflow slightly for visual flair */
+    overflow: visible; 
+}
+
+.win-line {
+    position: absolute;
+    background-color: var(--neon-green);
+    box-shadow: 
+        0 0 8px var(--neon-green),
+        0 0 16px var(--neon-green);
+    pointer-events: none;
+    z-index: 50 !important;
+    border-radius: 999px;
+    height: 4px; /* Thinner on mobile */
+    opacity: 0;
+    animation: drawLine 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (min-width: 768px) {
+    .win-line {
+        height: 6px; /* Thicker on desktop */
+        box-shadow: 
+            0 0 10px var(--neon-green),
+            0 0 25px var(--neon-green);
+    }
+}
+
+@keyframes drawLine {
+    0% { width: 0; opacity: 0; }
+    100% { opacity: 1; } /* Width is set dynamically by JS */
+}
+
+/* --- Animations --- */
+.fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.animate-fade-in { animation: fadeIn 0.4s ease-out; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Utility: Pulse Animation for Turn Indicator */
+@keyframes neonPulse {
+    0%, 100% { box-shadow: 0 0 10px var(--neon-green); }
+    50% { box-shadow: 0 0 20px var(--neon-green), 0 0 5px white; }
+}
+.turn-pulse {
+    animation: neonPulse 2s infinite;
+}

@@ -1,0 +1,9 @@
+server/serviceAccountKey.json
+serviceAccountKey.json
+*.json
+
+venv/
+pycache/
+*.pyc
+
+.DS_Store
